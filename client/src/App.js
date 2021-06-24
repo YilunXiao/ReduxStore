@@ -14,9 +14,14 @@ import NoMatch from './pages/NoMatch';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Nav from './components/Nav';
+// Replace this
 import { StoreProvider } from './utils/GlobalState';
 import Success from './pages/Success';
 import OrderHistory from './pages/OrderHistory';
+// Redux Dependencies
+import { createStore } from 'redux';
+import { reducer } from './utils/reduxReducer';
+import { Provider } from 'react-redux'
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -37,12 +42,15 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+// redux store
+const store = createStore(reducer)
+
 function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
         <div>
-          <StoreProvider>
+          <StoreProvider store={store}>
             <Nav />
             <Switch>
               <Route exact path="/" component={Home} />
